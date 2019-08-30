@@ -6,6 +6,7 @@
         // database connection and table name
         private $conn;
         private $table_name = "students";
+        private $table1_name = "studSubjects";
     
         // model properties
         public $id;
@@ -23,6 +24,9 @@
         public $dob;
         public $phone;
         public $address1;
+
+        public $stdID;
+        public $subID;
     
         // constructor
         public function __construct($db){
@@ -151,6 +155,78 @@
                 return ($data);
             }else{
                return (array("message" => "no student available"));
+            }
+        }
+
+        public function regStdSub(){
+            $query = "CREATE TABLE IF NOT EXISTS studSubjects (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                student INT(11) NOT NULL,
+                subject INT(11) NOT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                // insert query
+                $query = "INSERT INTO " . $this->table1_name . "
+                SET
+                    student = :student,
+                    subject = :subject";
+
+                // prepare the query
+                $stmt = $this->conn->prepare($query);
+
+                // sanitize
+                $this->stdID=htmlspecialchars(strip_tags($this->stdID));
+                $this->subID=htmlspecialchars(strip_tags($this->subID));
+
+                // bind the values
+                $stmt->bindParam(':student', $this->stdID);
+                $stmt->bindParam(':subject', $this->subID);
+
+                // execute the query, also check if query was successful
+                if($stmt->execute()){
+                    return json_encode(array("status"=>"1", "message" => "Student subject registered successfully."));
+                }
+
+                return json_encode(array("status"=>"0", "message" => "Student subject not registered."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Student subject not registered."));
+        }
+
+        public function getStdSub($id){
+            $query = "SELECT 
+                    students.firstname, 
+                    students.middlename, 
+                    students.lastname,
+                    subjects.subject
+                FROM 
+                    students 
+                INNER JOIN 
+                    subjects
+                WHERE 
+                    students.id = ".$id;
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                $data = array();
+                while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    $data_item = array(
+                        'id' => $id,
+                        'student' => $firstname,
+                        'subject' => $subject
+                    );
+                    array_push($data, $data_item);
+                }
+                return ($data);
+            }else{
+               return (array("message" => "no subject registered"));
             }
         }
 

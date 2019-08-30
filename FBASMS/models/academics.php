@@ -297,4 +297,288 @@
         }
     }
 
+    // session and terms model
+    class Sessions{
+        // database connection and table name
+        private $conn;
+        private $table1_name = "sessions";
+        private $table2_name = "terms";
+
+        // model properties
+        public $id;
+        public $session;
+        public $term;
+
+        // constructor
+        public function __construct($db){
+            $this->conn = $db;
+        }
+
+        // create new user record
+        function createSession(){
+
+            $query = "CREATE TABLE IF NOT EXISTS sessions (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                session VARCHAR(255) DEFAULT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                modified_at TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                if(!$this->sessionExists()){
+                   // insert query
+                    $query = "INSERT INTO " . $this->table1_name . "
+                    SET
+                        session = :session";
+
+                    // prepare the query
+                    $stmt = $this->conn->prepare($query);
+
+                    // sanitize
+                    $this->session=htmlspecialchars(strip_tags($this->session));
+
+                    // bind the values
+                    $stmt->bindParam(':session', $this->session);
+
+                    // execute the query, also check if query was successful
+                    if($stmt->execute()){
+                        return json_encode(array("status"=>"1", "message" => "Session created successfully."));
+                    }
+
+                    return json_encode(array("status"=>"0", "message" => "Session Already Exists."));
+                }
+
+                return json_encode(array("status"=>"0", "message" => "Session Already Exists."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Session not created."));
+        }
+
+        // check if given Session exist in the database
+        function sessionExists(){
+
+            $query = "CREATE TABLE IF NOT EXISTS sessions (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                session VARCHAR(255) DEFAULT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                modified_at TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                // query to check if email exists
+                $query = "SELECT id,session
+                FROM " . $this->table1_name . "
+                WHERE session = ?
+                LIMIT 0,1";
+
+                // prepare the query
+                $stmt = $this->conn->prepare( $query );
+
+                // sanitize
+                $this->session=htmlspecialchars(strip_tags($this->session));
+
+                // bind given session value
+                $stmt->bindParam(1, $this->session);
+
+                // execute the query
+                $stmt->execute();
+
+                // get number of rows
+                $num = $stmt->rowCount();
+
+                // if session exists, assign values to object properties for easy access and use for php sessions
+                if($num>0){       
+
+                    // get record details / values
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    // assign values to object properties
+                    $this->id = $row['id'];
+                    $this->session = $row['session'];
+
+                    // return true because session exists in the database
+                    return true;
+                }
+                return false;
+
+            }
+            // return false if session does not exist in the database
+            return false;
+        }
+
+        function getSessions(){
+            $query = "CREATE TABLE IF NOT EXISTS sessions (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                session VARCHAR(255) DEFAULT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                modified_at TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                $query = "SELECT * FROM ".$this->table1_name;
+
+                $stmt = $this->conn->prepare($query);
+    
+                if($stmt->execute()){
+                    $data = array();
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        $data_item = array(
+                            'id' => $id,
+                            'session' => $session
+                        );
+                        array_push($data, $data_item);
+                    }
+                    return ($data);
+                }else{
+                    return (array("message" => "no session available"));
+                }
+            }
+
+            return (array("message" => "no session available"));
+        }
+
+        // create new user record
+        function createTerm(){
+
+            $query = "CREATE TABLE IF NOT EXISTS terms (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                term VARCHAR(255) DEFAULT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                modified_at TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                if(!$this->termExists()){
+                   // insert query
+                    $query = "INSERT INTO " . $this->table2_name . "
+                    SET
+                        term = :term";
+
+                    // prepare the query
+                    $stmt = $this->conn->prepare($query);
+
+                    // sanitize
+                    $this->term=htmlspecialchars(strip_tags($this->term));
+
+                    // bind the values
+                    $stmt->bindParam(':term', $this->term);
+
+                    // execute the query, also check if query was successful
+                    if($stmt->execute()){
+                        return json_encode(array("status"=>"1", "message" => "Term created successfully."));
+                    }
+
+                    return json_encode(array("status"=>"0", "message" => "Term Already Exists."));
+                }
+
+                return json_encode(array("status"=>"0", "message" => "Term Already Exists."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Term not created."));
+        }
+
+        // check if given Term exist in the database
+        function termExists(){
+
+            $query = "CREATE TABLE IF NOT EXISTS terms (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                term VARCHAR(255) DEFAULT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                modified_at TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                // query to check if email exists
+                $query = "SELECT id,term
+                FROM " . $this->table2_name . "
+                WHERE term = ?
+                LIMIT 0,1";
+
+                // prepare the query
+                $stmt = $this->conn->prepare( $query );
+
+                // sanitize
+                $this->term=htmlspecialchars(strip_tags($this->term));
+
+                // bind given term value
+                $stmt->bindParam(1, $this->term);
+
+                // execute the query
+                $stmt->execute();
+
+                // get number of rows
+                $num = $stmt->rowCount();
+
+                // if term exists, assign values to object properties for easy access and use for php terms
+                if($num>0){       
+
+                    // get record details / values
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    // assign values to object properties
+                    $this->id = $row['id'];
+                    $this->term = $row['term'];
+
+                    // return true because term exists in the database
+                    return true;
+                }
+                return false;
+
+            }
+            // return false if term does not exist in the database
+            return false;
+        }
+
+        function getTerms(){
+            $query = "CREATE TABLE IF NOT EXISTS terms (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                term VARCHAR(255) DEFAULT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                modified_at TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                $query = "SELECT * FROM ".$this->table2_name;
+
+                $stmt = $this->conn->prepare($query);
+    
+                if($stmt->execute()){
+                    $data = array();
+                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        $data_item = array(
+                            'id' => $id,
+                            'term' => $term
+                        );
+                        array_push($data, $data_item);
+                    }
+                    return ($data);
+                }else{
+                    return (array("message" => "no term available"));
+                }
+            }
+
+            return (array("message" => "no term available"));
+        }
+    }
+
 ?>
