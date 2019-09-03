@@ -43,22 +43,24 @@
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
             // set property values
-            $students->stdID = $data->student;
-            $students->subID = $data->subject;
-            $students->sessionID = $data->session;
+            $students->fullname = $data->fullname;
+            $students->term = $data->term;
+            $students->session = $data->session;
+            $students->amount = $data->amount;
 
             // create the students
             if(
-                !empty($students->stdID) &&
-                !empty($students->subID) &&
-                !empty($students->sessionID)
+                !empty($students->fullname) &&
+                !empty($students->term) &&
+                !empty($students->session) &&
+                !empty($students->amount)
             ){
             
                 // set response code
                 http_response_code(200);
             
                 // display message: students was created
-                echo $students->regStdSub();
+                echo $students->paymentUpload();
             }
             
             // message if unable to create students

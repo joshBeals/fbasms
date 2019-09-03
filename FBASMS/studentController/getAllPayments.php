@@ -1,7 +1,7 @@
 <?php
 
     // required headers
-    header("Access-Control-Allow-Origin: http://localhost/fbasms");
+    header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
     header("Access-Control-Allow-Methods: POST");
     header("Access-Control-Max-Age: 3600");
@@ -25,50 +25,51 @@
     $db = $database->connect();
 
     // instantiate useer model
-    $students = new Student($db);
+    $student = new Student($db);
 
     // get posted data
     $data = json_decode(file_get_contents("php://input"));
-
+    
     // get jwt
     $jwt=isset($data->jwt) ? $data->jwt : "";
 
     // if jwt is not empty
     if($jwt){
     
-        // if decode succeed, show admin details
+        // if decode succeed, show student details
         try {
     
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
-            // set property values
-            $students->stdID = $data->student;
-            $students->subID = $data->subject;
-            $students->sessionID = $data->session;
+            $payments = $student->getPayments();
 
-            // create the students
-            if(
-                !empty($students->stdID) &&
-                !empty($students->subID) &&
-                !empty($students->sessionID)
-            ){
-            
+            if($payments){
+                
                 // set response code
                 http_response_code(200);
-            
-                // display message: students was created
-                echo $students->regStdSub();
+                
+                // response in json format
+                echo json_encode(
+                    array(
+                        "status" => "1",
+                        "message" => "Data gotten successfully",
+                        "data" => $payments
+                    )
+                );
             }
-            
-            // message if unable to create students
+             
+            // message if unable to get departments
             else{
-            
                 // set response code
-                http_response_code(400);
-            
-                // display message: unable to create students
-                echo json_encode(array("status"=>"0", "message" => "Fields cannot be left empty."));
+                http_response_code(401);
+             
+                // show error message
+                echo json_encode(
+                    array(
+                        "status" => "0",
+                        "message" => "Unable to get data."
+                    ));
             }
         }
         // if decode fails, it means jwt is invalid
@@ -90,8 +91,8 @@
         // set response code
         http_response_code(401);
     
-        // tell the admin access denied
+        // tell the student access denied
         echo json_encode(array("message" => "Access denied."));
     }
-
+    
 ?>
