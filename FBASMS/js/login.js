@@ -44,6 +44,7 @@ const login = () => {
                         main.classList.add('alert-success');
 
                         setCookie("jwt", data.jwt, 1);
+                        setCookie("admin", data.admin, 1);
                         window.location.replace("./dashboards/admin");
                     }else{
                         topic.innerHTML = 'Login Error!';
@@ -78,6 +79,39 @@ const login = () => {
                         setCookie("jwt", data.jwt, 1);
                         setCookie("teacher", data.teacher, 1);
                         window.location.replace("./dashboards/teacher");
+                    }else{
+                        topic.innerHTML = 'Login Error!';
+                        body.innerHTML = data.message;
+                        main.classList.remove('hide');
+                        main.classList.remove('alert-warning');
+                        main.classList.add('alert-danger');
+                    }
+                })
+                .catch(err => console.log(err))
+            }else if(id.value == 3){
+                fetch('./api/studentController/student_login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Accept':'application/json, text/plain/ */*',
+                        'Content-type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        email : email.value,
+                        password : password.value
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status == '1'){
+                        topic.innerHTML = 'Login Successful!';
+                        body.innerHTML = data.message;
+                        main.classList.remove('hide');
+                        main.classList.remove('alert-warning');
+                        main.classList.add('alert-success');
+
+                        setCookie("jwt", data.jwt, 1);
+                        setCookie("student", data.student, 1);
+                        window.location.replace("./dashboards/student");
                     }else{
                         topic.innerHTML = 'Login Error!';
                         body.innerHTML = data.message;

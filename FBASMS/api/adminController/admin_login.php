@@ -63,6 +63,7 @@
             echo json_encode(
                 array(
                     "status" => "1",
+                    "admin" => $admin->id,
                     "message" => "You are successfully logged in.",
                     "jwt" => $jwt
                 )

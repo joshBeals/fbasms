@@ -12,7 +12,8 @@ const LoadMainPage = () => {
 
 const numberAnalysis = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/adminController/numberAnalysis.php', {
@@ -36,7 +37,8 @@ const numberAnalysis = () => {
 
 const RegisterStudents = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('pages/regStudents.html')
@@ -67,7 +69,8 @@ const RegisterStudents = () => {
 
 const regStudentsSubjects = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('pages/regStdSub.html')
@@ -183,7 +186,8 @@ const TeacherSubject = () => {
 
 const teachSub = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/teacherController/getTeachersSubjects.php', {
@@ -224,7 +228,8 @@ const teachSub = () => {
 
 const regTeachSub = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/teacherController/assignSubject.php', {
@@ -253,7 +258,8 @@ const regTeachSub = () => {
 
 const loadTeachers = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/teacherController/getAllTeachers.php', {
@@ -278,7 +284,8 @@ const loadTeachers = () => {
 
 const loadSubjects = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/getAllSubjects.php', {
@@ -303,7 +310,8 @@ const loadSubjects = () => {
 
 const loadClasses = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/getAllClasses.php', {
@@ -328,7 +336,8 @@ const loadClasses = () => {
 
 const addAdmin = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/adminController/admin_create.php', {
@@ -352,7 +361,8 @@ const addAdmin = () => {
 
 const adminData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/adminController/getAllAdmins.php', {
@@ -391,7 +401,8 @@ const adminData = () => {
 
 const sessionData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/getAllSessions.php', {
@@ -429,7 +440,8 @@ const sessionData = () => {
 
 const termData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/getAllTerms.php', {
@@ -467,7 +479,8 @@ const termData = () => {
 
 const classData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/getAllClasses.php', {
@@ -505,7 +518,8 @@ const classData = () => {
 
 const subjectData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/getAllSubjects.php', {
@@ -543,7 +557,8 @@ const subjectData = () => {
 
 const paymentData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/studentController/getAllPayments.php', {
@@ -584,7 +599,8 @@ const paymentData = () => {
 
 const reg = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/studentController/getAllStudents.php', {
@@ -628,7 +644,8 @@ const reg = () => {
 
 const showSubjects = (std) => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     document.querySelector('#myModal').style.display = 'flex';
@@ -671,7 +688,8 @@ const showSubjects = (std) => {
 
 const regSubject = (std,sub,session) => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/studentController/registerSubjects.php', {
@@ -696,7 +714,8 @@ const regSubject = (std,sub,session) => {
 
 const viewStudSub = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('pages/viewStdSub.html')
@@ -746,7 +765,8 @@ const viewStudSub = () => {
 
 const show = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/studentController/getAllStudents.php', {
@@ -790,7 +810,8 @@ const show = () => {
 
 const stdSub = (std,session) => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     document.querySelector('#myModal').style.display = 'flex';
@@ -835,7 +856,8 @@ const stdSub = (std,session) => {
 
 const studentsData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/studentController/getAllStudents.php', {
@@ -887,7 +909,8 @@ const studentsData = () => {
 
 const teachersData = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/teacherController/getAllTeachers.php', {
@@ -943,7 +966,8 @@ const addAcad = () => {
 
 const addSession = (session) => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/addSession.php', {
@@ -964,7 +988,8 @@ const addSession = (session) => {
 
 const addTerm = (term) => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/addTerms.php', {
@@ -985,7 +1010,8 @@ const addTerm = (term) => {
 
 const addClass = (classs) => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/class_create.php', {
@@ -1006,7 +1032,8 @@ const addClass = (classs) => {
 
 const addSubject = (subject) => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/academicsController/subject_create.php', {
@@ -1027,7 +1054,8 @@ const addSubject = (subject) => {
 
 const addPayment = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/studentController/paymentUpload.php', {
@@ -1051,7 +1079,8 @@ const addPayment = () => {
 
 const addTeacher = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/teacherController/teacher_create.php', {
@@ -1087,7 +1116,8 @@ const addTeacher = () => {
 
 const registerStudents = () => {
     let jwt = getCookie('jwt');
-    if(!jwt){
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
     fetch('../../api/studentController/student_create.php', {
@@ -1136,6 +1166,7 @@ const registerStudents = () => {
 
 const logout = () => {
     setCookie("jwt", '', 1);
+    setCookie("admin", '', 1);
     window.location.replace("../../index.html");
 }
 

@@ -137,6 +137,79 @@
             return json_encode(array("status"=>"0", "message" => "Student not created."));
         }
 
+        // check if given email exist in the database
+        function login(){
+
+            $query = "CREATE TABLE IF NOT EXISTS students (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                firstname VARCHAR(255) DEFAULT NULL,
+                lastname VARCHAR(255) DEFAULT NULL,
+                middlename VARCHAR(255) DEFAULT NULL,
+                class INT(11) NOT NULL,
+                nationality VARCHAR(255) DEFAULT NULL,
+                state VARCHAR(255) DEFAULT NULL,
+                religion VARCHAR(255) DEFAULT NULL,
+                lga VARCHAR(255) DEFAULT NULL,
+                pob VARCHAR(255) DEFAULT NULL,
+                sex VARCHAR(255) DEFAULT NULL,
+                dob VARCHAR(255) DEFAULT NULL,
+                parent VARCHAR(255) DEFAULT NULL,
+                phone VARCHAR(255) DEFAULT NULL,
+                address1 VARCHAR(255) DEFAULT NULL,
+                address2 VARCHAR(255) DEFAULT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                modified_at TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id),
+                FOREIGN KEY (class) REFERENCES classes(id)
+            ) ";
+
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                // query to check if student is valid
+                $query = "SELECT id,firstname,lastname
+                FROM " . $this->table_name . "
+                WHERE firstname = ? and lastname = ?
+                LIMIT 0,1";
+
+                // prepare the query
+                $stmt = $this->conn->prepare( $query );
+
+                // sanitize
+                $this->firstname=htmlspecialchars(strip_tags($this->firstname));
+                $this->lastname=htmlspecialchars(strip_tags($this->lastname));
+
+                // bind given email value
+                $stmt->bindParam(1, $this->firstname);
+                $stmt->bindParam(2, $this->lastname);
+
+                // execute the query
+                $stmt->execute();
+
+                // get number of rows
+                $num = $stmt->rowCount();
+
+                // if email exists, assign values to object properties for easy access and use for php sessions
+                if($num>0){       
+
+                    // get record details / values
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    // assign values to object properties
+                    $this->id = $row['id'];
+                    $this->firstname = $row['firstname'];
+                    $this->lastname = $row['lastname'];
+
+                    // return true because email exists in the database
+                    return true;
+                }
+                return false;
+
+            }
+            // return false if email does not exist in the database
+            return false;
+        }
+
         function getStudents(){
             $query = "SELECT 
                     students.id,
@@ -589,6 +662,7 @@
                     studSubjects.thirdEX,
                     students.firstname,
                     students.lastname,
+                    subjects.subject,
                     classes.classname
                 FROM 
                     ((((studSubjects 
@@ -621,6 +695,7 @@
                         'id' => $id,
                         'student' => $firstname.' '.$lastname,
                         'class' => $classname,
+                        'subject' => $subject,
                         'firstCA' => $firstCA,
                         'firstEX' => $firstEX,
                         'secondCA' => $secondCA,
