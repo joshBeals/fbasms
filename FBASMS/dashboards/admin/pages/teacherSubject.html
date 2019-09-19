@@ -1,0 +1,96 @@
+<div class="content" style="margin-top: 80px;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Teacher's Subjects Table</h4>
+                    <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                        <i class="fa fa-plus"></i>
+                        Assign Teacher to Subject
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Modal -->
+                <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header no-bd">
+                                <h5 class="modal-title">
+                                    <span class="fw-mediumbold">
+                                    Teacher's</span> 
+                                    <span class="fw-light">
+                                        Subjects
+                                    </span>
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="small">Assign a teacher to a subject and class here</p>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Teacher</label>
+                                                <select class="form-group col-md-12 mt-1" id="ateacher"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Subject</label>
+                                                <select class="form-group col-md-12 mt-1" id="asubject"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Class</label>
+                                                <select class="form-group col-md-12 mt-1" id="aclass"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer no-bd">
+                                <button type="button" onclick="regTeachSub()" class="btn btn-primary">Add</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="table-responsive">
+                    <table id="add-row" class="display table table-striped table-hover" >
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Subject</th>
+                                <th>Class</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teachSubTable">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .content{
+        animation: load 500ms;
+    }
+
+    @keyframes load{
+        0%{
+            opacity: 0;
+        }100%{
+            opacity: 1;
+        }
+    }
+</style>

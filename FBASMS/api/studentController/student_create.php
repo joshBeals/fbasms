@@ -46,6 +46,7 @@
             $students->firstname = $data->firstname;
             $students->middlename = $data->middlename;
             $students->lastname = $data->lastname;
+            $students->class = $data->class;
             $students->nationality = $data->nationality;
             $students->state = $data->state;
             $students->religion = $data->religion;
@@ -63,6 +64,7 @@
                 !empty($students->firstname) &&
                 !empty($students->middlename) &&
                 !empty($students->lastname) &&
+                !empty($students->class) &&
                 !empty($students->nationality) &&
                 !empty($students->state) &&
                 !empty($students->religion) &&

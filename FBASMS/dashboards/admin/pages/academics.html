@@ -1,0 +1,194 @@
+<div class="content" style="margin-top: 80px;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Session Table</h4>
+                    <button id="sessionBtn" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                        <i class="fa fa-plus"></i>
+                        Add Session
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Modal -->
+                <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header no-bd">
+                                <h5 class="modal-title">
+                                    <span class="fw-mediumbold">
+                                    New</span> 
+                                    <span class="fw-light">
+                                        Data
+                                    </span>
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="small">Chose the item you want to create and create it</p>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Select Item</label>
+                                                <select id="dataOpt" class="form-control">
+                                                    <option value="1">Session</option>
+                                                    <option value="2">Term</option>
+                                                    <option value="3">Class</option>
+                                                    <option value="4">Subject</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-12">
+                                            <div class="form-group form-group-default">
+                                                <label>Data</label>
+                                                <input id="data" type="text" class="form-control" placeholder="Enter Data">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer no-bd">
+                                <button type="button" onclick="addAcad()" class="btn btn-primary">Add</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>       
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="table-responsive">
+                    <table id="add-row" class="display table table-striped table-hover" >
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Session</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sessionTable">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Term Table</h4>
+                    <button id="termBtn" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                        <i class="fa fa-plus"></i>
+                        Add Term
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="add-row" class="display table table-striped table-hover" >
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Term</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="termTable">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Class Table</h4>
+                    <button id="termBtn" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                        <i class="fa fa-plus"></i>
+                        Add Class
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="add-row" class="display table table-striped table-hover" >
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Class</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classTable">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">Subjects Table</h4>
+                    <button id="termBtn" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                        <i class="fa fa-plus"></i>
+                        Add Subject
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="add-row" class="display table table-striped table-hover" >
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Subject</th>
+                                <th style="width: 10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectTable">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+    .content{
+        animation: load 500ms;
+    }
+
+    @keyframes load{
+        0%{
+            opacity: 0;
+        }100%{
+            opacity: 1;
+        }
+    }
+</style>
+<script>
+
+    document.querySelector('#sessionBtn').addEventListener('click', () => {
+        
+    });
+
+    document.querySelector('#termBtn').addEventListener('click', () => {
+        document.querySelector('#sessionModal').style.display = "none";
+        document.querySelector('#termModal').style.display = "flex";
+    });
+
+</script>

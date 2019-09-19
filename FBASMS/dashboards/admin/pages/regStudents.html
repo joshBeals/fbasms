@@ -1,0 +1,111 @@
+<div class="content" style="margin-top: 80px;">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Student Registeration Form</div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="sfname">Firstname</label>
+                            <input type="text" class="form-control" id="sfname" placeholder="Enter Firstname">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="slname">Lastname</label>
+                            <input type="text" class="form-control" id="slname" placeholder="Enter Lastname">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="smname">Middlename</label>
+                            <input type="text" class="form-control" id="smname" placeholder="Enter Middlename">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="srel">Religion</label>
+                            <select class="form-control" id="srel">
+                                <option value="Christianity">Christianity</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Other religion">Other religion</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="ssex">Sex</label>
+                            <select class="form-control" id="ssex">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="sdob">Date of birth</label>
+                            <input type="date" class="form-control" id="sdob">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="sclass">Class</label>
+                            <select class="form-control" id="sclass"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="spob">Place of birth</label>
+                            <input type="text" class="form-control" id="spob" placeholder="Enter Place of birth">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="slga">L.G.A</label>
+                            <input type="text" class="form-control" id="slga" placeholder="Enter L.G.A">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="snat">Nationality</label>
+                            <input type="text" class="form-control" id="snat" placeholder="Enter Nationality">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="sstate">State</label>
+                            <input type="text" class="form-control" id="sstate" placeholder="Enter State">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="spname">Parent/Guardian Name</label>
+                            <input type="text" class="form-control" id="spname" placeholder="Enter Parent Name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="spnum">Parent/Guardian Phone Number</label>
+                            <input type="number" class="form-control" id="spnum" placeholder="Enter Parent Phone Number">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="saddress1">Home Address</label>
+                            <input type="text" class="form-control" id="saddress1" placeholder="Enter Address">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="saddress2">Address2</label>
+                            <input type="text" class="form-control" id="saddress2" placeholder="Enter Address2">
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn btn-primary" onclick="registerStudents()">Submit</button>
+                        <button class="btn btn-danger" onclick="LoadMainPage()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .content{
+        animation: load 500ms;
+    }
+
+    @keyframes load{
+        0%{
+            opacity: 0;
+        }100%{
+            opacity: 1;
+        }
+    }
+</style>

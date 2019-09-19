@@ -126,7 +126,7 @@
             $stmt = $this->conn->prepare($query);
 
             if($stmt->execute()){
-                $query = "SELECT * FROM ".$this->table_name;
+                $query = "SELECT * FROM ".$this->table_name." ORDER BY classname";
 
                 $stmt = $this->conn->prepare($query);
     
@@ -275,7 +275,7 @@
             $stmt = $this->conn->prepare($query);
 
             if($stmt->execute()){
-                $query = "SELECT * FROM ".$this->table_name;
+                $query = "SELECT * FROM ".$this->table_name." ORDER BY subject";
 
                 $stmt = $this->conn->prepare($query);
     

@@ -40,7 +40,7 @@
         !empty($teacher->password)
     ){
         // check if email exists and if password is correct
-        if($email_exists && password_verify($data->password, $teacher->password)){
+        if($email_exists && $data->password == $teacher->lastname.'.'.$teacher->firstname){
         
             $token = array(
             "iss" => $iss,
@@ -63,6 +63,7 @@
             echo json_encode(
                 array(
                     "status" => "1",
+                    "teacher" => $teacher->id,
                     "message" => "You are successfully logged in.",
                     "jwt" => $jwt
                 )

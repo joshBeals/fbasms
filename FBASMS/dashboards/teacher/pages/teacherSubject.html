@@ -1,0 +1,42 @@
+<div class="content" style="margin-top: 80px;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">My Subjects Table</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="add-row" class="display table table-striped table-hover" >
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Subject</th>
+                                <th>Class</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teachSubTable">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .content{
+        animation: load 500ms;
+    }
+
+    @keyframes load{
+        0%{
+            opacity: 0;
+        }100%{
+            opacity: 1;
+        }
+    }
+</style>

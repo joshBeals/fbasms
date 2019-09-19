@@ -60,7 +60,6 @@
                 $teacher->dob = $data->dob;
                 $teacher->phone = $data->phone;
                 $teacher->address = $data->address;
-                $teacher->password = $data->password;
                 $teacher->email = $data->email;
 
                 // create the teacher
@@ -71,8 +70,7 @@
                     !empty($teacher->dob) &&
                     !empty($teacher->phone) &&
                     !empty($teacher->address) &&
-                    !empty($teacher->email) &&
-                    !empty($teacher->password)
+                    !empty($teacher->email)
                 ){
                 
                     // set response code

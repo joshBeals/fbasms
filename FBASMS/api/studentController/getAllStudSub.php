@@ -33,6 +33,7 @@
     // get jwt
     $jwt=isset($data->jwt) ? $data->jwt : "";
     $id = $data->id;
+    $sess = $data->session;
     // if jwt is not empty
     if($jwt){
     
@@ -42,7 +43,7 @@
             // decode jwt
             $decoded = JWT::decode($jwt, $key, array('HS256'));
 
-            $stdSubData = $student->getStdSub($id);
+            $stdSubData = $student->getStdSub($id,$sess);
 
             if($stdSubData){
                 

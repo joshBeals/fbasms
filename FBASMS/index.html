@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<!-- Head -->
+
+<head>
+    <title>fbasms</title>
+    <!-- Meta-Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Key Login Form a Responsive Web Template, Bootstrap Web Templates, Flat Web Templates, Android Compatible Web Template, Smartphone Compatible Web Template, Free Webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- //Meta-Tags -->
+    <!-- Index-Page-CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+    <!-- //Custom-Stylesheet-Links -->
+    <!--fonts -->
+    <!-- //fonts -->
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" media="all">
+    <!-- //Font-Awesome-File-Links -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<!-- Google fonts -->
+	<link href="//fonts.googleapis.com/css?family=Quattrocento+Sans:400,400i,700,700i" rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Mukta:200,300,400,500,600,700,800" rel="stylesheet">
+	<!-- Bootstrap CDN -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<!-- //Head -->
+<!-- Body -->
+
+<body>
+
+<section class="main">
+	<div class="alert alert-danger alert-dismissible fade show hide" role="alert"
+	style="position: absolute; top: 10px; right: 1%; z-index: 100" id="main">
+		<strong id='topic'></strong> <span id='body'></span>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close" id="close" onclick="document.querySelector('#main').classList.add('hide');">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="layer">
+		<div class="content-w3ls">
+			<div class="text-center icon">
+				<span><img style="height: 100px;" src="images/fba.jpg"></span>
+			</div>
+			<h2 id="title" style="text-align: center; color: #1269db; font-size: 30px; margin-bottom: 20px; transition: 300ms ease-in-out; font-family: 'Mukta', sans-serif;">SIGN IN</h2>
+			<div class="content-bottom">
+				<div class="form" id="loginForm">
+					<div class="field-group">
+						<span class="fa fa-inbox" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input name="email" id="email" type="email" value="" placeholder="Email" required>
+						</div>
+					</div>
+					<div class="field-group">
+						<span class="fa fa-lock" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input name="password" id="password" type="Password" placeholder="Password">
+						</div>
+					</div>
+					<div class="field-group">
+						<span class="fa fa-file" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<select id="role">
+								<option value="0">Choose Role</option>
+								<option value="1">School Admin</option>
+								<option value="2">School Teacher</option>
+							</select>
+						</div>
+					</div>
+					<div class="wthree-field">
+						<button onclick="login()" class="btn">Sign In</button>
+					</div>
+					<ul class="list-login">
+						<li class="switch-agileits">
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+								keep Logged in
+							</label>
+						</li>
+						<li>
+							<a href="#" class="text-right">forgot password?</a>
+						</li>
+						<li class="clearfix"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+    </div>
+</section>
+<script src="js/login.js"></script>
+</body>
+<!-- //Body -->
+</html>
