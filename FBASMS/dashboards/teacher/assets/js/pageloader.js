@@ -116,6 +116,11 @@ const teachSub = () => {
     if(!jwt || !teacher){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/teacherController/singleTeachSub.php', {
         method: 'POST',
         headers: {
@@ -129,6 +134,7 @@ const teachSub = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#teachSubTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -252,6 +258,11 @@ const grade = () => {
     if(!jwt || !teacher){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     let str = document.querySelector('#gradeSubjects').value.split(".");
     let sub = str[0];
     let cl = str[1];
@@ -270,6 +281,7 @@ const grade = () => {
     })
     .then(res => res.json())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#gradeTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -298,9 +310,8 @@ const uploadScores = () => {
     if(!jwt || !teacher){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#inner').innerHTML = `All Scores Uploaded Except : `;
     let tr = document.getElementsByTagName(`tr`).length - 1;
-    let names = [];
-    let index = 0;
     for(let i = 0; i < tr; i++){
         fetch('../../api/studentController/addGrades.php', {
             method: 'POST',
@@ -322,21 +333,19 @@ const uploadScores = () => {
         })
         .then(res => res.json())
         .then(data => {
+            let id = 0;
             if(data.status == '0'){
-                index++;
-                names.push(`${index}. ${document.querySelector(`#student${i+1}`).innerHTML}`);
-                if(i === tr-1){
-                    print(names);
-                }
+                id++;
+                document.querySelector('#inner').innerHTML += `
+                <div>${id}. ${document.querySelector(`#student${id}`).innerHTML}</div>`;
             }
         })
         .catch(err => console.log(err));
     }
-    const print = std => {
-        message += names;
-    }
-    console.log(message);
-    grade();
+    document.querySelector('#myModal').style.display = 'flex';
+    setTimeout(() => {
+        grade();
+    },2000);
 }
 
 

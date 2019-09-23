@@ -137,6 +137,37 @@
             return json_encode(array("status"=>"0", "message" => "Student not created."));
         }
 
+        function edit($id,$firstname,$lastname,$middlename,$cl,$nationality,$state,$religion,$pob,$sex,$lga,$parent,$dob,$phone,$address1,$address2){
+                $query = "UPDATE 
+                        students 
+                    SET 
+                        firstname = '$firstname',
+                        lastname = '$lastname',
+                        middlename = '$middlename',
+                        class = '$cl',
+                        nationality = '$nationality',
+                        state = '$state',
+                        religion = '$religion',
+                        pob = '$pob',
+                        lga = '$lga',
+                        sex = '$sex',
+                        dob = '$dob',
+                        parent = '$parent',
+                        phone = '$phone',
+                        address1 = '$address1',
+                        address2 = '$address2'
+                    WHERE 
+                        id = $id";
+                
+                $stmt = $this->conn->prepare($query);
+    
+                if($stmt->execute()){
+                    return json_encode(array("status"=>"1", "message" => "Student Updated."));
+                }
+    
+                return json_encode(array("status"=>"0", "message" => "Student Not Updated."));
+            }
+
         // check if given email exist in the database
         function login(){
 
@@ -336,12 +367,12 @@
                 student INT(11) NOT NULL,
                 subject INT(11) NOT NULL,
                 session INT(11) NOT NULL,
-                firstCA INT(11) DEFAULT NULL,
-                firstEX INT(11) DEFAULT NULL,
-                secondCA INT(11) DEFAULT NULL,
-                secondEX INT(11) DEFAULT NULL,
-                thirdCA INT(11) DEFAULT NULL,
-                thirdEX INT(11) DEFAULT NULL,
+                firstCA INT(11) DEFAULT null,
+                firstEX INT(11) DEFAULT null,
+                secondCA INT(11) DEFAULT null,
+                secondEX INT(11) DEFAULT null,
+                thirdCA INT(11) DEFAULT null,
+                thirdEX INT(11) DEFAULT null,
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 FOREIGN KEY (student) REFERENCES students(id),
@@ -396,7 +427,7 @@
         public function getStdSub($id,$sess){
 
             $query = "SELECT 
-                    students.id,
+                    subjects.id,
                     students.firstname, 
                     students.middlename, 
                     students.lastname,
@@ -618,13 +649,14 @@
                         'student' => $fullname,
                         'term' => $term,
                         'session' => $session,
-                        'amount' => $amount
+                        'amount' => $amount,
+                        'created_at' => $created_at
                     );
                     array_push($data, $data_item);
                 }
                 return ($data);
             }else{
-               return (array("message" => "no subject registered"));
+               return (array("message" => "no payment registered"));
             }
 
         }
@@ -709,6 +741,42 @@
             }else{
                return (array("message" => "no data found"));
             }
+        }
+
+        public function unregSub($std,$sess,$sub){
+            $query = "DELETE
+                 FROM 
+                    studSubjects
+                WHERE 
+                    student = $std and session = $sess and subject = $sub";
+
+            $stmt = $this->conn->prepare($query);   
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Subject Unregistered For Student"));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Subject Not Unregistered For Student"));
+        }
+
+        public function editPay($id,$fullname,$term,$session,$amount){
+            $query = "UPDATE 
+                    payments 
+                SET 
+                    fullname = '$fullname',
+                    term = '$term',
+                    session = '$session',
+                    amount = '$amount'
+                WHERE 
+                    id = $id";
+            
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Payment Updated."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Payment Not Updated."));
         }
 
         public function stdnum(){

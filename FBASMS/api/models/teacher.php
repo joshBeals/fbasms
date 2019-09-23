@@ -96,6 +96,29 @@
             return json_encode(array("status"=>"0", "message" => "Teacher not created."));
         }
 
+        function edit($id,$firstname,$lastname,$sex,$dob,$phone,$address,$email){
+            $query = "UPDATE 
+                    teachers 
+                SET 
+                    firstname = '$firstname',
+                    lastname = '$lastname',
+                    sex = '$sex',
+                    dob = '$dob',
+                    phone = '$phone',
+                    address = '$address',
+                    email = '$email'
+                WHERE 
+                    id = $id";
+            
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Teacher Updated."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Teacher Not Updated."));
+        }
+
         // check if given email exist in the database
         function emailExists(){
 
@@ -300,7 +323,6 @@
         function getTeacherSubjects(){
             $query = "SELECT 
                     teachersSubjects.id,
-                    teachers.id,
                     teachers.firstname,
                     teachers.lastname,
                     subjects.subject,
@@ -388,6 +410,22 @@
             }else{
                return (array("message" => "no subject registered"));
             }
+        }
+
+        public function unasign($id){
+            $query = "DELETE
+                 FROM 
+                    teachersSubjects
+                WHERE 
+                    id = $id";
+
+            $stmt = $this->conn->prepare($query);   
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Teacher Unasigned Successfully!!!"));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Teacher Not Unasigned Successfully!!!"));
         }
 
         public function teachernum(){

@@ -114,6 +114,11 @@ const result = () => {
     if(!jwt || !student){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/getResult.php', {
         method: 'POST',
         headers: {
@@ -128,7 +133,9 @@ const result = () => {
     })
     .then(res => res.json())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#resultTable').innerHTML = '';
+        document.querySelector('#average').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
             id++;
@@ -143,6 +150,7 @@ const result = () => {
                     <td>${total}</td>
                     <td>${grade(total)}</td>
                 </tr>`;
+                document.querySelector('#average').innerHTML = Number(document.querySelector('#average').innerHTML) + Number(total);
             }else if(document.querySelector('#resultTerm').value == 2){
                 let total = Number(dat.secondCA) + Number(dat.secondEX);
                 document.querySelector('#resultTable').innerHTML +=
@@ -154,6 +162,7 @@ const result = () => {
                     <td>${total}</td>
                     <td>${grade(total)}</td>
                 </tr>`;
+                document.querySelector('#average').innerHTML = Number(document.querySelector('#average').innerHTML) + Number(total);
             }else if(document.querySelector('#resultTerm').value == 3){
                 let total = Number(dat.thirdCA) + Number(dat.thirdEX);
                 document.querySelector('#resultTable').innerHTML +=
@@ -165,8 +174,12 @@ const result = () => {
                     <td>${total}</td>
                     <td>${grade(total)}</td>
                 </tr>`;
+                document.querySelector('#average').innerHTML = Number(document.querySelector('#average').innerHTML) + Number(total);
             }
         })
+        console.log(id);
+        document.querySelector('#average').innerHTML = Number(document.querySelector('#average').innerHTML) / Number(id);
+        document.querySelector('#average').innerHTML = `${document.querySelector('#average').innerHTML}%`
     })
     .catch(err => console.log(err))
 }
@@ -195,6 +208,11 @@ const showProfile = () => {
     if(!jwt || !student){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/getAllStudents.php', {
         method: 'POST',
         headers: {
@@ -207,23 +225,24 @@ const showProfile = () => {
     })
     .then(res => res.json())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         data.data.forEach(dat => {
             if(dat.id == student){
-                document.querySelector('#sfname').value = dat.firstname;
-                document.querySelector('#slname').value = dat.lastname;
-                document.querySelector('#smname').value = dat.middlename;
-                document.querySelector('#sclass').value = dat.class;
-                document.querySelector('#ssex').value = dat.sex;
-                document.querySelector('#sdob').value = dat.dob;
-                document.querySelector('#spob').value = dat.pob;
-                document.querySelector('#spname').value = dat.parent;
-                document.querySelector('#srel').value = dat.religion;
-                document.querySelector('#snat').value = dat.nationality;
-                document.querySelector('#sstate').value = dat.state;
-                document.querySelector('#slga').value = dat.lga;
-                document.querySelector('#spnum').value = dat.phone;
-                document.querySelector('#saddress1').value = dat.address1;
-                document.querySelector('#saddress2').value = dat.address2;
+                document.querySelector('#sfname').innerHTML = dat.firstname;
+                document.querySelector('#slname').innerHTML = dat.lastname;
+                document.querySelector('#smname').innerHTML = dat.middlename;
+                document.querySelector('#sclass').innerHTML = dat.class;
+                document.querySelector('#ssex').innerHTML = dat.sex;
+                document.querySelector('#sdob').innerHTML = dat.dob;
+                document.querySelector('#spob').innerHTML = dat.pob;
+                document.querySelector('#spname').innerHTML = dat.parent;
+                document.querySelector('#srel').innerHTML = dat.religion;
+                document.querySelector('#snat').innerHTML = dat.nationality;
+                document.querySelector('#sstate').innerHTML = dat.state;
+                document.querySelector('#slga').innerHTML = dat.lga;
+                document.querySelector('#spnum').innerHTML = dat.phone;
+                document.querySelector('#saddress1').innerHTML = dat.address1;
+                document.querySelector('#saddress2').innerHTML = dat.address2;
             }
         })
     })

@@ -252,8 +252,7 @@
 			animation: load 300ms ease-in-out;
 		}
 		.inner{
-			margin-top: 20px;
-			margin-bottom: 20px;
+			margin: 20px 300px;
 			border-radius: 10px;
 			padding: 20px 30px;
 			background: white;
@@ -283,6 +282,11 @@
 				opacity: 1;
 			}
 		}
+		@media screen and (max-width: 800px) {
+			.inner{
+				margin: 5px;
+			}
+		}
 	</style>
 	<!--   Core JS Files   -->
 	<script src="assets/js/core/jquery.3.2.1.min.js"></script>
@@ -310,6 +314,8 @@
 
 	<!-- Atlantis JS -->
 	<script src="assets/js/pageloader.js"></script>
+	<script src="assets/js/edit.js"></script>
+	<script src="assets/js/search.js"></script>
 	<script src="assets/js/atlantis.min.js"></script>
 </body>
 </html>

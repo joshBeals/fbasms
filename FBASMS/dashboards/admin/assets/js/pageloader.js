@@ -41,9 +41,15 @@ const RegisterStudents = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('pages/regStudents.html')
     .then(res => res.text())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         container.innerHTML = data;
         fetch('../../api/academicsController/getAllClasses.php', {
             method: 'POST',
@@ -73,6 +79,11 @@ const regStudentsSubjects = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('pages/regStdSub.html')
     .then(res => res.text())
     .then(data => {
@@ -89,6 +100,7 @@ const regStudentsSubjects = () => {
         })
         .then(res => res.json())
         .then(data => {
+            document.querySelector('#myModal').style.display = 'none';
             data.data.forEach(dat => {
                 document.querySelector('#regSession').innerHTML += 
                 `<option value="${dat.id}">${dat.session}</option>`;
@@ -190,6 +202,11 @@ const teachSub = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/teacherController/getTeachersSubjects.php', {
         method: 'POST',
         headers: {
@@ -202,6 +219,7 @@ const teachSub = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#teachSubTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -213,15 +231,58 @@ const teachSub = () => {
                 <td>${dat.lastname}</td>
                 <td>${dat.subject}</td>
                 <td>${dat.class}</td>
-                <td>
-                    <div class="form-button-action">
-                        <button onclick="" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                    </div>
-                </td>
+                <td><button onclick="areYouSure(${dat.id})" class="btn btn-primary btn-sm">unasign</button></td>
             </tr>`;
         })
+    })
+    .catch(err => console.log(err))
+}
+
+const areYouSure = id => {
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#myModal').style.position = 'fixed';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <h2>Are you sure you want to unasign teacher?</h2>
+    </div><br>
+    <div>
+<button type="button" onclick="unasign(${id})" class="btn btn-primary">Yes</button>
+<button type="button" onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger" data-dismiss="modal">Close</button>
+</div>`;
+}
+
+const unasign = id => {
+    let jwt = getCookie('jwt');
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
+        window.location.replace("../../index.html");
+    }
+    fetch('../../api/teacherController/unasign.php', {
+        method: 'POST',
+        headers: {
+            'Accept':'application/json, text/plain/ */*',
+            'Content-type':'application/json'
+        },
+        body:JSON.stringify({
+            id : id,
+            jwt : jwt
+        })       
+    })
+    .then(res => res.json())
+    .then(data => { 
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
+
+        setTimeout(() => {
+            teachSub();
+        }, 2000);
     })
     .catch(err => console.log(err))
 }
@@ -247,11 +308,21 @@ const regTeachSub = () => {
     })
     .then(res => res.json())
     .then(data => {
-        alert(data.message);
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
         document.querySelector('#ateacher').value = '';
         document.querySelector('#asubject').value = '';
         document.querySelector('#aclass').value = '';
-        teachSub();
+        setTimeout(() => {
+            teachSub();
+        } ,2000);
     })
     .catch(err => console.log(err))
 }
@@ -262,6 +333,11 @@ const loadTeachers = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/teacherController/getAllTeachers.php', {
         method: 'POST',
         headers: {
@@ -274,6 +350,7 @@ const loadTeachers = () => {
     })
     .then(res => res.json())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         data.data.forEach(dat => {
             document.querySelector('#ateacher').innerHTML += 
             `<option value="${dat.id}">${dat.firstname} ${dat.lastname}</option>`;
@@ -288,6 +365,11 @@ const loadSubjects = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/getAllSubjects.php', {
         method: 'POST',
         headers: {
@@ -300,6 +382,7 @@ const loadSubjects = () => {
     })
     .then(res => res.json())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         data.data.forEach(dat => {
             document.querySelector('#asubject').innerHTML += 
             `<option value="${dat.id}">${dat.subject}</option>`;
@@ -314,6 +397,11 @@ const loadClasses = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/getAllClasses.php', {
         method: 'POST',
         headers: {
@@ -326,6 +414,7 @@ const loadClasses = () => {
     })
     .then(res => res.json())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         data.data.forEach(dat => {
             document.querySelector('#aclass').innerHTML += 
             `<option value="${dat.id}">${dat.classname}</option>`;
@@ -340,6 +429,11 @@ const addAdmin = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/adminController/admin_create.php', {
         method: 'POST',
         headers: {
@@ -355,7 +449,18 @@ const addAdmin = () => {
         })
     })
     .then(res => res.json())
-    .then(data => {alert(data.message); adminData();})
+    .then(data => {
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
+        adminData();
+    })
     .catch(err => console.log(err))
 }
 
@@ -365,6 +470,11 @@ const adminData = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/adminController/getAllAdmins.php', {
         method: 'POST',
         headers: {
@@ -377,6 +487,7 @@ const adminData = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#adminTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -405,6 +516,11 @@ const sessionData = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/getAllSessions.php', {
         method: 'POST',
         headers: {
@@ -417,6 +533,7 @@ const sessionData = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#sessionTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -427,7 +544,7 @@ const sessionData = () => {
                 <td>${dat.session}</td>
                 <td>
                     <div class="form-button-action">
-                        <button onclick="alert('${dat.session}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                        <button onclick="editSession(${dat.id},'${dat.session}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
@@ -444,6 +561,11 @@ const termData = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/getAllTerms.php', {
         method: 'POST',
         headers: {
@@ -456,6 +578,7 @@ const termData = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#termTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -466,7 +589,7 @@ const termData = () => {
                 <td>${dat.term}</td>
                 <td>
                     <div class="form-button-action">
-                        <button onclick="alert('${dat.term}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                        <button onclick="editTerm(${dat.id},'${dat.term}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
@@ -483,6 +606,11 @@ const classData = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/getAllClasses.php', {
         method: 'POST',
         headers: {
@@ -495,6 +623,7 @@ const classData = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#classTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -505,7 +634,7 @@ const classData = () => {
                 <td>${dat.classname}</td>
                 <td>
                     <div class="form-button-action">
-                        <button onclick="alert('${dat.classname}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                        <button onclick="editClass(${dat.id},'${dat.classname}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
@@ -522,6 +651,11 @@ const subjectData = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/getAllSubjects.php', {
         method: 'POST',
         headers: {
@@ -534,6 +668,7 @@ const subjectData = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#subjectTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -544,7 +679,7 @@ const subjectData = () => {
                 <td>${dat.subject}</td>
                 <td>
                     <div class="form-button-action">
-                        <button onclick="alert('${dat.subject}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                        <button onclick="editSubject(${dat.id},'${dat.subject}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
@@ -584,9 +719,10 @@ const paymentData = () => {
                 <td>${dat.term}</td>
                 <td>${dat.session}</td>
                 <td>${dat.amount}</td>
+                <td>${dat.created_at}</td>
                 <td>
                     <div class="form-button-action">
-                        <button onclick="alert('${dat.student}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                        <button onclick="editPayment(${dat.id},'${dat.student}','${dat.term}','${dat.session}','${dat.amount}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
@@ -603,6 +739,11 @@ const reg = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/getAllStudents.php', {
         method: 'POST',
         headers: {
@@ -615,6 +756,7 @@ const reg = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#regTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -651,7 +793,7 @@ const showSubjects = (std) => {
     document.querySelector('#myModal').style.display = 'flex';
     document.querySelector('#inner').innerHTML = 
     `<div style="display: flex;">
-        <h2 class="mr-5">Register Students Subjects</h2>
+        <h2 class="mr-3">Register Students Subjects</h2>
         <div class="btn btn-danger" onclick="document.querySelector('#myModal').style.display = 'none';">close</div>
     </div>
     <br>
@@ -692,6 +834,11 @@ const regSubject = (std,sub,session) => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/registerSubjects.php', {
         method: 'POST',
         headers: {
@@ -707,7 +854,15 @@ const regSubject = (std,sub,session) => {
     })
     .then(res => res.json())
     .then(data => { 
-        alert(data.message);
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
     })
     .catch(err => console.log(err))
 }
@@ -718,9 +873,15 @@ const viewStudSub = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('pages/viewStdSub.html')
     .then(res => res.text())
     .then(data => {
+        document.querySelector('#myModal').style.display = 'none';
         container.innerHTML = data;
         fetch('../../api/academicsController/getAllSessions.php', {
             method: 'POST',
@@ -769,6 +930,11 @@ const show = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/getAllStudents.php', {
         method: 'POST',
         headers: {
@@ -781,6 +947,7 @@ const show = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#showTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -817,7 +984,7 @@ const stdSub = (std,session) => {
     document.querySelector('#myModal').style.display = 'flex';
     document.querySelector('#inner').innerHTML = 
     `<div style="display: flex;">
-        <h2 class="mr-5">View Students Subjects</h2>
+        <h2 class="mr-3">Register Students Subjects</h2>
         <div class="btn btn-danger" onclick="document.querySelector('#myModal').style.display = 'none';">close</div>
     </div>
     <br>
@@ -845,11 +1012,45 @@ const stdSub = (std,session) => {
                 <h3>${id}</h3>
                 <h4>${dat.subject}</h4>
                 <div>
-                    <div class="btn btn-primary btn-sm">Unregister</div>
+                    <div onclick="unregister(${std},${session},${dat.id})" class="btn btn-primary btn-sm">Unregister</div>
                 </div>
             </div>`;
             
         })
+    })
+    .catch(err => console.log(err))
+}
+
+const unregister = (std,session,subject) => {
+    let jwt = getCookie('jwt');
+    let admin = getCookie('admin');
+    if(!jwt || !admin){
+        window.location.replace("../../index.html");
+    }
+    fetch('../../api/studentController/unregisterSubject.php', {
+        method: 'POST',
+        headers: {
+            'Accept':'application/json, text/plain/ */*',
+            'Content-type':'application/json'
+        },
+        body:JSON.stringify({
+            id : std,
+            subject : subject,
+            session : session,
+            jwt : jwt
+        })       
+    })
+    .then(res => res.json())
+    .then(data => { 
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
     })
     .catch(err => console.log(err))
 }
@@ -860,6 +1061,11 @@ const studentsData = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/getAllStudents.php', {
         method: 'POST',
         headers: {
@@ -872,6 +1078,7 @@ const studentsData = () => {
     })
     .then(res => res.json())
     .then(data => { 
+        document.querySelector('#myModal').style.display = 'none';
         document.querySelector('#studentsTable').innerHTML = '';
         let id = 0;
         data.data.forEach(dat => {
@@ -896,7 +1103,7 @@ const studentsData = () => {
                 <td>${dat.address2}</td>
                 <td>
                     <div class="form-button-action">
-                        <button onclick="alert('${dat.lastname}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                        <button onclick="editStudents(${dat.id},'${dat.firstname}','${dat.lastname}','${dat.middlename}','${dat.class}','${dat.sex}','${dat.dob}','${dat.pob}','${dat.nationality}','${dat.state}','${dat.lga}','${dat.religion}','${dat.parent}','${dat.phone}','${dat.address1}','${dat.address2}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
@@ -941,7 +1148,7 @@ const teachersData = () => {
                 <td>${dat.email}</td>
                 <td>
                     <div class="form-button-action">
-                        <button onclick="alert('${dat.lastname}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
+                        <button onclick="editTeachers(${dat.id},'${dat.firstname}','${dat.lastname}','${dat.sex}','${dat.dob}','${dat.phone}','${dat.address}','${dat.email}')" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
                             <i class="fa fa-edit"></i>
                         </button>
                     </div>
@@ -955,12 +1162,16 @@ const teachersData = () => {
 const addAcad = () => {
     if(document.querySelector('#dataOpt').value == '1'){
         addSession(document.querySelector('#data').value);
+        document.querySelector('#data').value = '';
     }else if(document.querySelector('#dataOpt').value == '2'){
         addTerm(document.querySelector('#data').value);
+        document.querySelector('#data').value = '';
     }else if(document.querySelector('#dataOpt').value == '3'){
         addClass(document.querySelector('#data').value);
+        document.querySelector('#data').value = '';
     }else if(document.querySelector('#dataOpt').value == '4'){
         addSubject(document.querySelector('#data').value);
+        document.querySelector('#data').value = '';
     }
 }
 
@@ -970,6 +1181,11 @@ const addSession = (session) => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/addSession.php', {
         method: 'POST',
         headers: {
@@ -982,7 +1198,21 @@ const addSession = (session) => {
         })
     })
     .then(res => res.json())
-    .then(data => {alert(data.message); sessionData();})
+    .then(data => {
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#myModal').style.position = 'fixed';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
+        setTimeout(() => {
+            sessionData();
+        }, 2000);
+    })
     .catch(err => console.log(err))
 }
 
@@ -992,6 +1222,11 @@ const addTerm = (term) => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/addTerms.php', {
         method: 'POST',
         headers: {
@@ -1004,7 +1239,21 @@ const addTerm = (term) => {
         })
     })
     .then(res => res.json())
-    .then(data => {alert(data.message); termData();})
+    .then(data => {
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#myModal').style.position = 'fixed';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
+        setTimeout(() => {
+            termData();
+        }, 2000);
+    })
     .catch(err => console.log(err))
 }
 
@@ -1014,6 +1263,12 @@ const addClass = (classs) => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#myModal').style.position = 'fixed';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/class_create.php', {
         method: 'POST',
         headers: {
@@ -1026,7 +1281,21 @@ const addClass = (classs) => {
         })
     })
     .then(res => res.json())
-    .then(data => {alert(data.message); classData();})
+    .then(data => {
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#myModal').style.position = 'fixed';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
+        setTimeout(() => {
+            classData();
+        }, 2000);
+    })
     .catch(err => console.log(err))
 }
 
@@ -1036,6 +1305,11 @@ const addSubject = (subject) => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/academicsController/subject_create.php', {
         method: 'POST',
         headers: {
@@ -1048,7 +1322,21 @@ const addSubject = (subject) => {
         })
     })
     .then(res => res.json())
-    .then(data => {alert(data.message); subjectData();})
+    .then(data => {
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#myModal').style.position = 'fixed';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
+        setTimeout(() => {
+            subjectData();
+        }, 2000);
+    })
     .catch(err => console.log(err))
 }
 
@@ -1058,6 +1346,11 @@ const addPayment = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/paymentUpload.php', {
         method: 'POST',
         headers: {
@@ -1073,7 +1366,18 @@ const addPayment = () => {
         })
     })
     .then(res => res.json())
-    .then(data => {alert(data.message); paymentData();})
+    .then(data => {
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
+        paymentData();
+    })
     .catch(err => console.log(err))
 }
 
@@ -1083,6 +1387,11 @@ const addTeacher = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/teacherController/teacher_create.php', {
         method: 'POST',
         headers: {
@@ -1102,7 +1411,15 @@ const addTeacher = () => {
     })
     .then(res => res.json())
     .then(data => {
-        alert(data.message); 
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
         document.querySelector('#tfname').value = '';
         document.querySelector('#tlname').value = '';
         document.querySelector('#tdob').value = '';
@@ -1120,6 +1437,11 @@ const registerStudents = () => {
     if(!jwt || !admin){
         window.location.replace("../../index.html");
     }
+    document.querySelector('#myModal').style.display = 'flex';
+    document.querySelector('#inner').innerHTML = 
+    `<div style="display: flex;">
+        <p>Loading... Please Wait!!!</p>
+    </div>`;
     fetch('../../api/studentController/student_create.php', {
         method: 'POST',
         headers: {
@@ -1147,7 +1469,15 @@ const registerStudents = () => {
     })
     .then(res => res.json())
     .then(data => {
-        alert(data.message);
+        document.querySelector('#myModal').style.display = 'flex';
+        document.querySelector('#inner').innerHTML = 
+        `<div style="display: flex; flex-direction: column;">
+            <h2>Message</h2>
+            <br>
+            <p>${data.message}</p>
+            <br>
+            <button onclick="document.querySelector('#myModal').style.display = 'none';" class="btn btn-danger btn-sm">close</button>
+        </div>`;
         document.querySelector('#sfname').value = '';
         document.querySelector('#slname').value = '';
         document.querySelector('#smname').value = '';

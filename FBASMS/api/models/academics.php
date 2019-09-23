@@ -147,6 +147,23 @@
             }
         }
 
+        public function editClass($id,$classname){
+            $query = "UPDATE 
+                    classes 
+                SET 
+                    classname = '$classname'
+                WHERE 
+                    id = $id";
+            
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Class Updated."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Class Not Updated."));
+        }
+
     }
 
 
@@ -294,6 +311,23 @@
                     return (array("message" => "no subject available"));
                 }
             }
+        }
+
+        public function editSubject($id,$subject){
+            $query = "UPDATE 
+                    subjects 
+                SET 
+                    subject = '$subject'
+                WHERE 
+                    id = $id";
+            
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Subject Updated."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Subject Not Updated."));
         }
     }
 
@@ -543,6 +577,40 @@
             }
             // return false if term does not exist in the database
             return false;
+        }
+
+        public function editSession($id,$session){
+            $query = "UPDATE 
+                    sessions 
+                SET 
+                    session = '$session'
+                WHERE 
+                    id = $id";
+            
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Session Updated."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Session Not Updated."));
+        }
+
+        public function editTerm($id,$term){
+            $query = "UPDATE 
+                    terms 
+                SET 
+                    term = '$term'
+                WHERE 
+                    id = $id";
+            
+            $stmt = $this->conn->prepare($query);
+
+            if($stmt->execute()){
+                return json_encode(array("status"=>"1", "message" => "Term Updated."));
+            }
+
+            return json_encode(array("status"=>"0", "message" => "Term Not Updated."));
         }
 
         function getTerms(){
